@@ -46,7 +46,25 @@ class Editor:
         if self.pan_active:
             self.origin = vector(mouse_pos()) - self.pan_offset
        
+    # drawing
+    def draw_tile_lines(self):
+        cols = WINDOW_WIDTH // TILE_SIZE
+        rows = WINDOW_HEIGHT // TILE_SIZE
+        
+        origin_offset = vector(
+            x = self.origin.x % TILE_SIZE, 
+            y = self.origin.y % TILE_SIZE)
+        
+        for col in range(cols):
+            x = origin_offset.x + col * TILE_SIZE
+            pygame.draw.line(self. display_surface, LINE_COLOR, (x,0), (x,WINDOW_HEIGHT))
+            
+        for row in range(rows):
+            y = origin_offset.y + row * TILE_SIZE
+            pygame.draw.line(self. display_surface, LINE_COLOR, (0,y), (WINDOW_WIDTH,y))
+            
     def run(self, dt):
         self.display_surface.fill('white')
+        self.draw_tile_lines()
         self.event_loop()
         pygame.draw.circle(self.display_surface, 'red', self.origin, 10)
